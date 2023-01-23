@@ -1,4 +1,21 @@
-<div class="w-full h-full flex flex-col gap-20 items-center justify-center">
-    <p class="text-white font-bold text-6xl">Ram Usage: {{ramUsage}}</p>
-    <p class="text-white font-bold text-6xl">CPU Usage: {{cpuUsage}}</p>
+<div class="w-full h-full flex flex-col">
+    <div class="bg-gray-800 h-16 flex items-center p-5">
+        <h1 class="text-white font-bold text-2xl">Performance</h1>
+    </div>
+    <div class="flex-grow flex flex-row gap-20 ">
+        <!-- Tabs -->
+        <div class="border-r border-blue-500 w-64 flex items-center flex-col p-3">
+            <h2 class="text-white font-bold text-6xl">CPU</h2>
+            <h2 class="text-white font-bold text-6xl">Memory</h2>
+            <h2 class="text-white font-bold text-6xl">Disk</h2>
+            <h2 class="text-white font-bold text-6xl">Wi-Fi</h2>
+            <h2 class="text-white font-bold text-6xl">GPU</h2>
+        </div>
+
+        <!-- information -->
+        <div>
+            <p class="text-white font-bold text-6xl">Ram Usage: {{ramUsage}}</p>
+            <p class="text-white font-bold text-6xl">CPU Usage: {{cpuUsage}}</p>
+        </div>
+    </div>
 </div>
