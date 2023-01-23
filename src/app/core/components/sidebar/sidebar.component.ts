@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, delay, filter, map, pipe, switchMap, timer } from 'rxjs';
-import { ElectronService } from '../../services';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,23 +22,9 @@ export class SidebarComponent implements OnInit {
   private showTitle = new BehaviorSubject<boolean>(false);
   private showTitle$ = this.showTitle.asObservable();
 
-  constructor(private electronService: ElectronService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.electronService.ipcRenderer.on('cpu-response', (event, data) => {
-      // const usagePercentage = (data * 100).toFixed(2) + '%';
-      console.log(data.currentLoad); 
-    });
-
-    this.electronService.ipcRenderer.on('ram-response', (event, data) => {
-      const usagePercentage = (data * 100).toFixed(2) + '%';
-      console.log("RAM usage: " + usagePercentage); 
-    });
-
-    // setInterval(() => {
-    //   this.electronService.ipcRenderer.send('ram-request');
-    //   this.electronService.ipcRenderer.send('cpu-request');
-    // }, 500)
 
     this.sidebarStyle$.pipe(
       filter(x => this.isWide),
