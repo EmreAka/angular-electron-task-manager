@@ -12,6 +12,13 @@ const routes: Routes = [
   //   path: '**',
   //   component: PageNotFoundComponent
   // }
+  {
+    path:"", redirectTo: "applications", pathMatch: "full"
+  },
+  {
+    path:"applications",
+    loadChildren: () => import("./views/applications-view/applications-view.module").then(module => module.ApplicationsViewModule)
+  },
 ];
 
 @NgModule({

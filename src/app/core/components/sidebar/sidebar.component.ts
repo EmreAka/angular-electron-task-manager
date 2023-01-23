@@ -36,10 +36,10 @@ export class SidebarComponent implements OnInit {
       console.log("RAM usage: " + usagePercentage); 
     });
 
-    setInterval(() => {
-      this.electronService.ipcRenderer.send('ram-request');
-      this.electronService.ipcRenderer.send('cpu-request');
-    }, 500)
+    // setInterval(() => {
+    //   this.electronService.ipcRenderer.send('ram-request');
+    //   this.electronService.ipcRenderer.send('cpu-request');
+    // }, 500)
 
     this.sidebarStyle$.pipe(
       filter(x => this.isWide),
