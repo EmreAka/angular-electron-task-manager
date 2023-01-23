@@ -19,6 +19,10 @@ const routes: Routes = [
     path:"applications",
     loadChildren: () => import("./views/applications-view/applications-view.module").then(module => module.ApplicationsViewModule)
   },
+  {
+    path:"performance",
+    loadChildren: () => import("./views/performance-view/performance-view.module").then(module => module.PerformanceViewModule)
+  }
 ];
 
 @NgModule({
