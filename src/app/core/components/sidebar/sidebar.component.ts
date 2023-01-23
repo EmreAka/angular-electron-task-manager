@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, delay, filter, map, mapTo, pipe, switchMap, timer } from 'rxjs';
+import { BehaviorSubject, delay, filter, map, pipe, switchMap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
