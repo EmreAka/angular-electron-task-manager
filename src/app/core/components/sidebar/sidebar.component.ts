@@ -14,6 +14,8 @@ export class SidebarComponent implements OnInit {
   widthValue: string = 'w-14'
   show: boolean = false;
 
+  selectedTab: 'APPS' | 'PERFORMANCE' | 'STARTUP' | 'PROCESSES' | 'SETTINGS' = 'APPS'
+
   private sidebarStyle = new BehaviorSubject<string>('items-center')
   private sidebarStyle$ = this.sidebarStyle.asObservable()
 
@@ -39,6 +41,17 @@ export class SidebarComponent implements OnInit {
         this.show = value;
       }
     })
+  }
+
+  getTabClass(tab: 'APPS' | 'PERFORMANCE' | 'STARTUP' | 'PROCESSES' | 'SETTINGS'){
+    if (tab === this.selectedTab) {
+      return 'bg-gray-700'
+    }
+    return ''
+  }
+
+  setSelectedTab(tab: 'APPS' | 'PERFORMANCE' | 'STARTUP' | 'PROCESSES' | 'SETTINGS'){
+    this.selectedTab = tab;
   }
 
   getSidebarClass(){
