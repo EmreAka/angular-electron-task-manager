@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, delay, filter, map, pipe, switchMap, timer } from 'rxjs';
+import { ElectronService } from '../../services';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,9 +23,20 @@ export class SidebarComponent implements OnInit {
   private showTitle = new BehaviorSubject<boolean>(false);
   private showTitle$ = this.showTitle.asObservable();
 
-  constructor() { }
+  constructor(private electronService: ElectronService) { }
 
   ngOnInit(): void {
+    this.electronService.ipcRenderer.on('cpu-response', (event, data) => {
+      const usagePercentage = (data * 100).toFixed(2) + '%';
+      console.log("CPU usage: " + usagePercentage); // { data: 'example data' }
+    });
+
+    this.electronService.ipcRenderer.on('ram-response', (event, data) => {
+      const usagePercentage = (data * 100).toFixed(2) + '%';
+      console.log("RAM usage: " + usagePercentage); // { data: 'example data' }
+    });
+
+
     this.sidebarStyle$.pipe(
       filter(x => this.isWide),
       delay(300)
@@ -36,35 +48,37 @@ export class SidebarComponent implements OnInit {
 
     this.showTitle$.pipe(
       switchMap(val => timer(this.isWide ? 300 : 0).pipe(map(() => val))
-    )).subscribe({
-      next: (value) => {
-        this.show = value;
-      }
-    })
+      )).subscribe({
+        next: (value) => {
+          this.show = value;
+        }
+      })
   }
 
-  getTabClass(tab: 'APPS' | 'PERFORMANCE' | 'STARTUP' | 'PROCESSES' | 'SETTINGS'){
+  getTabClass(tab: 'APPS' | 'PERFORMANCE' | 'STARTUP' | 'PROCESSES' | 'SETTINGS') {
     if (tab === this.selectedTab) {
       return 'bg-gray-700'
     }
     return ''
   }
 
-  setSelectedTab(tab: 'APPS' | 'PERFORMANCE' | 'STARTUP' | 'PROCESSES' | 'SETTINGS'){
+  setSelectedTab(tab: 'APPS' | 'PERFORMANCE' | 'STARTUP' | 'PROCESSES' | 'SETTINGS') {
     this.selectedTab = tab;
+    this.electronService.ipcRenderer.send('ram-request');
+    this.electronService.ipcRenderer.send('cpu-request');
   }
 
-  getSidebarClass(){
+  getSidebarClass() {
     return this.sidebarStyle$
   }
 
-  setSidebarWide(){
+  setSidebarWide() {
     this.isWide = !this.isWide
     if (this.isWide) {
       this.sidebarStyle.next('px-1')
       this.showTitle.next(true)
       this.widthValue = 'w-80'
-    }else{
+    } else {
       this.sidebarStyle.next('items-center')
       this.showTitle.next(false)
       this.widthValue = 'w-14'

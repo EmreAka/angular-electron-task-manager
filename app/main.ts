@@ -1,6 +1,7 @@
-import {app, BrowserWindow, Menu, screen} from 'electron';
+import { app, BrowserWindow, Menu, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
+const os = require('os');
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -34,7 +35,7 @@ function createWindow(): BrowserWindow {
     let pathIndex = './index.html';
 
     if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
-       // Path when running electron in local folder
+      // Path when running electron in local folder
       pathIndex = '../dist/index.html';
     }
 
@@ -58,7 +59,28 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-  app.on('ready', () => {setTimeout(createWindow, 400); Menu.setApplicationMenu(null)});
+  app.on('ready', () => { setTimeout(createWindow, 400); Menu.setApplicationMenu(null) });
+
+  ipcMain.on('cpu-request', (event) => {
+    const cpus = os.cpus();
+    let total = 0;
+    let used = 0;
+    cpus.forEach(cpu => {
+        used += cpu.times.user + cpu.times.nice + cpu.times.sys;
+        total += cpu.times.user + cpu.times.nice + cpu.times.sys + cpu.times.idle + cpu.times.irq;
+    });
+    const usage = used / total;
+
+    event.sender.send('cpu-response', usage);
+  });
+
+  ipcMain.on('ram-request', (event) => {
+    const total = os.totalmem();
+    const free = os.freemem();
+    const used = total - free;
+    const usage = used / total;
+    event.sender.send('ram-response', usage);
+  })
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
