@@ -9,5 +9,6 @@
   "main": "main.js",
   "private": true,
   "dependencies": {
+    "systeminformation": "5.17.3"
   }
 }

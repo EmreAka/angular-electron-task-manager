@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 const os = require('os');
+const si = require('systeminformation');
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -62,16 +63,18 @@ try {
   app.on('ready', () => { setTimeout(createWindow, 400); Menu.setApplicationMenu(null) });
 
   ipcMain.on('cpu-request', (event) => {
-    const cpus = os.cpus();
-    let total = 0;
-    let used = 0;
-    cpus.forEach(cpu => {
-        used += cpu.times.user + cpu.times.nice + cpu.times.sys;
-        total += cpu.times.user + cpu.times.nice + cpu.times.sys + cpu.times.idle + cpu.times.irq;
-    });
-    const usage = used / total;
+    // const cpus = os.cpus();
+    // let total = 0;
+    // let used = 0;
+    // cpus.forEach(cpu => {
+    //     used += cpu.times.user + cpu.times.nice + cpu.times.sys;
+    //     total += cpu.times.user + cpu.times.nice + cpu.times.sys + cpu.times.idle + cpu.times.irq;
+    // });
+    // const usage = used / total;
 
-    event.sender.send('cpu-response', usage);
+    si.currentLoad()
+      .then(data => event.sender.send('cpu-response', data))
+      .catch(error => console.error(error));
   });
 
   ipcMain.on('ram-request', (event) => {
