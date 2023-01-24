@@ -17,6 +17,13 @@ export class PerformanceViewComponent implements OnInit, OnDestroy {
     ]
   }];
 
+  ramResources: any = [{
+    name: "RAM",
+    series: [
+      
+    ]
+  }];
+
   constructor(private performanceService: PerformanceService) { }
 
   ngOnDestroy(): void {
@@ -33,6 +40,17 @@ export class PerformanceViewComponent implements OnInit, OnDestroy {
         }
         this.cpuResources[0].series.push({ name: Date().toString(), value: value })
         this.cpuResources = [...this.cpuResources]
+      }
+    })
+
+    this.performanceService.getRamUsage().subscribe({
+      next: (value) => {
+        this.ramUsage = value
+        if (this.ramResources[0].series.length > 20) {
+          this.ramResources[0].series.shift()
+        }
+        this.ramResources[0].series.push({ name: Date().toString(), value: value })
+        this.ramResources = [...this.ramResources]
       }
     })
   }

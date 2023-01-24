@@ -12,6 +12,9 @@ export class PerformanceService {
   private cpuUsage = new BehaviorSubject<number>(0)
   private cpuUsage$ = this.cpuUsage.asObservable()
 
+  private ramUsage = new BehaviorSubject<number>(0)
+  private ramUsage$ = this.ramUsage.asObservable()
+
   constructor(private electronService: ElectronService) {
     this.subscribe()
   }
@@ -24,11 +27,16 @@ export class PerformanceService {
 
     this.electronService.ipcRenderer.on('ram-response', (event, data) => {
       const usagePercentage = (data * 100).toFixed(2) + '%';
+      this.ramUsage.next(+(data * 100).toFixed(2))
     });
   }
 
   getCpuUsage() {
     return this.cpuUsage$
+  }
+
+  getRamUsage() {
+    return this.ramUsage$
   }
 
   startRequesting() {
