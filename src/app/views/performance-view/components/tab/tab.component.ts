@@ -43,14 +43,12 @@ export class TabComponent implements OnInit, OnDestroy{
     this.performanceService.startRequesting();
     this.performanceService.getCpuUsage().subscribe({
       next: (value) => {
-        console.log(value)
         this.cpuUsage = value
         if (this.multi[0].series.length > 20) {
           this.multi[0].series.shift()
         }
         this.multi[0].series.push({name: Date().toString(), value: value})
         this.multi = [...this.multi]
-        console.log(this.multi)
       }
     })
   }
