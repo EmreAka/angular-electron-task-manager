@@ -19,19 +19,19 @@ export class PerformanceViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.electronService.ipcRenderer.on('cpu-response', (event, data) => {
-      const usagePercentage = (data.currentLoad).toFixed(2) + '%';
-      this.cpuUsage = usagePercentage
-    });
+    // this.electronService.ipcRenderer.on('cpu-response', (event, data) => {
+    //   const usagePercentage = (data.currentLoad).toFixed(2) + '%';
+    //   this.cpuUsage = usagePercentage
+    // });
 
-    this.electronService.ipcRenderer.on('ram-response', (event, data) => {
-      const usagePercentage = (data * 100).toFixed(2) + '%';
-      this.ramUsage = usagePercentage
-    });
+    // this.electronService.ipcRenderer.on('ram-response', (event, data) => {
+    //   const usagePercentage = (data * 100).toFixed(2) + '%';
+    //   this.ramUsage = usagePercentage
+    // });
 
-    this.intervalId = setInterval(() => {
-      this.electronService.ipcRenderer.send('ram-request');
-      this.electronService.ipcRenderer.send('cpu-request');
-    }, 500)
+    // this.intervalId = setInterval(() => {
+    //   this.electronService.ipcRenderer.send('ram-request');
+    //   this.electronService.ipcRenderer.send('cpu-request');
+    // }, 500)
   }
 }

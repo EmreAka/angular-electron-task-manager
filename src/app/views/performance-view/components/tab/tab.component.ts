@@ -1,36 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { PerformanceService } from '../../services/performance.service';
 
 @Component({
   selector: 'app-tab',
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss']
 })
-export class TabComponent implements OnInit {
+export class TabComponent implements OnInit, OnDestroy{
   @Input() title: string = "Title"
 
   multi: any = [{
     name: "CPU",
     series: [
-      {
-        name: "CPU1",
-        value: 31
-      },
-      {
-        name: "CPU2",
-        value: 60
-      },
-      {
-        name: "CPU3",
-        value: 20
-      },
-      {
-        name: "CPU4",
-        value: 100
-      },
-      {
-        name: "CPU5",
-        value: 10
-      },
+      
     ]
   }];
   view: [number, number] = [150, 100];
@@ -42,16 +24,31 @@ export class TabComponent implements OnInit {
   yAxis: boolean = false;
   showYAxisLabel: boolean = false;
   showXAxisLabel: boolean = false;
-  xAxisLabel: string = 'Year';
-  yAxisLabel: string = 'Population';
+  xAxisLabel: string = 'Time';
+  yAxisLabel: string = 'Usage';
   timeline: boolean = false;
   colorScheme: any = {
     domain: ['#0081B4', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
   };
 
-  constructor() { }
+  constructor(private performanceService: PerformanceService) { }
+  ngOnDestroy(): void {
+    this.performanceService.stopRequesting();
+  }
 
   ngOnInit(): void {
+    this.performanceService.startRequesting();
+    this.performanceService.getCpuUsage().subscribe({
+      next: (value) => {
+        console.log(value)
+        if (this.multi[0].series.length > 20) {
+          this.multi[0].series.shift()
+        }
+        this.multi[0].series.push({name: Date().toString(), value: value})
+        this.multi = [...this.multi]
+        console.log(this.multi)
+      }
+    })
   }
 
   onSelect(event) {
