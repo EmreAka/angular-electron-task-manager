@@ -42,5 +42,6 @@ export class PerformanceService {
 
   stopRequesting() {
     clearInterval(this.intervalId)
+    this.intervalId = null;
   }
 }

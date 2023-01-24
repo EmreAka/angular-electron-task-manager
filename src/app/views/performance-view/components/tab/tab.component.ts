@@ -6,18 +6,18 @@ import { PerformanceService } from '../../services/performance.service';
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss']
 })
-export class TabComponent implements OnInit, OnDestroy{
+export class TabComponent{
   @Input() title: string = "Title"
-  cpuUsage: number = 0
-
-
-
-  multi: any = [{
+  @Input() cpuUsage: number = 0
+  @Input() cpuResources: any = [{
     name: "CPU",
     series: [
       
     ]
   }];
+
+
+
   view: [number, number] = [150, 100];
   // options
   legend: boolean = false;
@@ -35,23 +35,6 @@ export class TabComponent implements OnInit, OnDestroy{
   };
 
   constructor(private performanceService: PerformanceService) { }
-  ngOnDestroy(): void {
-    this.performanceService.stopRequesting();
-  }
-
-  ngOnInit(): void {
-    this.performanceService.startRequesting();
-    this.performanceService.getCpuUsage().subscribe({
-      next: (value) => {
-        this.cpuUsage = value
-        if (this.multi[0].series.length > 20) {
-          this.multi[0].series.shift()
-        }
-        this.multi[0].series.push({name: Date().toString(), value: value})
-        this.multi = [...this.multi]
-      }
-    })
-  }
 
   onSelect(event) {
     console.log(event);

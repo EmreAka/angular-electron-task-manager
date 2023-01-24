@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ElectronService } from '../../core/services';
+import { PerformanceService } from './services/performance.service';
 
 @Component({
   selector: 'app-performance-view',
@@ -7,31 +7,33 @@ import { ElectronService } from '../../core/services';
   styleUrls: ['./performance-view.component.scss']
 })
 export class PerformanceViewComponent implements OnInit, OnDestroy {
+  cpuUsage: number = 0
+  ramUsage: number = 0
 
-  intervalId: any = null
-  cpuUsage: string = ""
-  ramUsage: string = ""
+  cpuResources: any = [{
+    name: "CPU",
+    series: [
+      
+    ]
+  }];
 
-  constructor(private electronService: ElectronService) { }
+  constructor(private performanceService: PerformanceService) { }
 
   ngOnDestroy(): void {
-    clearInterval(this.intervalId)
+    this.performanceService.stopRequesting();
   }
 
   ngOnInit(): void {
-    // this.electronService.ipcRenderer.on('cpu-response', (event, data) => {
-    //   const usagePercentage = (data.currentLoad).toFixed(2) + '%';
-    //   this.cpuUsage = usagePercentage
-    // });
-
-    // this.electronService.ipcRenderer.on('ram-response', (event, data) => {
-    //   const usagePercentage = (data * 100).toFixed(2) + '%';
-    //   this.ramUsage = usagePercentage
-    // });
-
-    // this.intervalId = setInterval(() => {
-    //   this.electronService.ipcRenderer.send('ram-request');
-    //   this.electronService.ipcRenderer.send('cpu-request');
-    // }, 500)
+    this.performanceService.startRequesting();
+    this.performanceService.getCpuUsage().subscribe({
+      next: (value) => {
+        this.cpuUsage = value
+        if (this.cpuResources[0].series.length > 20) {
+          this.cpuResources[0].series.shift()
+        }
+        this.cpuResources[0].series.push({ name: Date().toString(), value: value })
+        this.cpuResources = [...this.cpuResources]
+      }
+    })
   }
 }
