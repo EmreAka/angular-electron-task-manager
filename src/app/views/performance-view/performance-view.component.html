@@ -1,21 +1,17 @@
-<div class="flex-grow flex flex-col">
+<div class="flex-grow flex flex-col h-full">
     <div class="bg-gray-800 h-16 flex items-center p-5">
         <h1 class="text-white font-bold text-2xl">Performance</h1>
     </div>
-    <div class="flex-grow flex flex-row gap-20">
+    <div class="flex-grow flex flex-row">
         <!-- Tabs -->
         <div class="w-64 flex flex-col px-1 py-3 max-h-screen overflow-y-auto">
             <app-tab title="CPU" [cpuResources]="cpuResources" [cpuUsage]="cpuUsage"></app-tab>
             <app-tab title="RAM" [cpuResources]="ramResources" [cpuUsage]="ramUsage"></app-tab>
-            <!-- <app-tab title="RAM"></app-tab>
-            <app-tab title="Disk"></app-tab>
-            <app-tab title="Wi-Fi"></app-tab> -->
         </div>
 
         <!-- information -->
-        <div class="flex-grow">
-            <p class="text-white font-bold text-6xl">Ram Usage: {{ramUsage}}</p>
-            <p class="text-white font-bold text-6xl">CPU Usage: {{cpuUsage}}</p>
+        <div class="flex-grow text-white p-6">
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
