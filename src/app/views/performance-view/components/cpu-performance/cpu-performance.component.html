@@ -1,4 +1,14 @@
-<div class="flex justify-between items-center">
-    <h1 class="text-4xl">CPU</h1>
-    <h1 class="text-2xl">Processor model</h1>
+<div class="flex flex-col gap-5">
+    <div class="flex justify-between items-center">
+        <h1 class="text-4xl">CPU</h1>
+        <h1 class="text-2xl">Processor model</h1>
+    </div>
+    
+    <div class="h-80 bg-gray-800">
+        <ngx-charts-area-chart [showGridLines]="true" [autoScale]="false" [yScaleMin]="0" [yScaleMax]="100"
+            [animations]="false" [scheme]="colorScheme"  [legend]="legend" [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="cpuResources" style="fill: white;">
+        </ngx-charts-area-chart>
+    </div>
 </div>
