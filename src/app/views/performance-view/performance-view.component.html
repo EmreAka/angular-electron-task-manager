@@ -4,12 +4,12 @@
     </div>
     <div class="flex-grow flex flex-row gap-20 ">
         <!-- Tabs -->
-        <div class="border-r border-blue-500 w-64 flex items-center flex-col p-3">
-            <h2 class="text-white font-bold text-6xl">CPU</h2>
-            <h2 class="text-white font-bold text-6xl">Memory</h2>
-            <h2 class="text-white font-bold text-6xl">Disk</h2>
-            <h2 class="text-white font-bold text-6xl">Wi-Fi</h2>
-            <h2 class="text-white font-bold text-6xl">GPU</h2>
+        <div class="w-64 flex flex-col px-1 py-6 gap-10">
+            <app-tab title="CPU"></app-tab>
+            <app-tab title="RAM"></app-tab>
+            <app-tab title="Disk"></app-tab>
+            <app-tab title="Wi-Fi"></app-tab>
+            <app-tab title="GPU"></app-tab>
         </div>
 
         <!-- information -->
@@ -23,7 +23,7 @@
                 (select)="onSelect($event)">
             </ngx-charts-line-chart> -->
 
-            <ngx-charts-area-chart [showGridLines]="false" [view]="view" [scheme]="colorScheme" [legend]="legend"
+            <ngx-charts-area-chart dim [showGridLines]="false" [view]="view" [scheme]="colorScheme" [legend]="legend"
                 [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis"
                 [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="multi"
                 (select)="onSelect($event)">

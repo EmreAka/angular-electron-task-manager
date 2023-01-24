@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { PerformanceViewComponent } from './performance-view.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { TabComponent } from './components/tab/tab.component';
 
 const routes: Routes = [
   {path:"", component: PerformanceViewComponent}
 ]
 
 @NgModule({
-  declarations: [PerformanceViewComponent],
+  declarations: [PerformanceViewComponent, TabComponent],
   imports: [
     CommonModule,
     NgxChartsModule,

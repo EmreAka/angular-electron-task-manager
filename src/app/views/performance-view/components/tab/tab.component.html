@@ -1,0 +1,8 @@
+<div class="flex hover:bg-gray-800 w-full">
+    <ngx-charts-area-chart [showGridLines]="false" [view]="view" [scheme]="colorScheme" [legend]="legend"
+        [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis"
+        [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="multi"
+        (select)="onSelect($event) ">
+    </ngx-charts-area-chart>
+    <h2 class="text-white text-xl">{{title}}</h2>
+</div>
