@@ -6,5 +6,9 @@
             (select)="onSelect($event) ">
         </ngx-charts-area-chart>
     </div>
-    <h2 class="text-white text-xl">{{title}}</h2>
+    <div class="flex flex-col">
+        <h2 class="text-white text-xl">{{title}}</h2>
+        <h2 class="text-white">{{cpuUsage}}%</h2>
+    </div>
+    
 </div>

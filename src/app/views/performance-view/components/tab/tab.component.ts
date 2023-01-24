@@ -8,6 +8,9 @@ import { PerformanceService } from '../../services/performance.service';
 })
 export class TabComponent implements OnInit, OnDestroy{
   @Input() title: string = "Title"
+  cpuUsage: number = 0
+
+
 
   multi: any = [{
     name: "CPU",
@@ -41,6 +44,7 @@ export class TabComponent implements OnInit, OnDestroy{
     this.performanceService.getCpuUsage().subscribe({
       next: (value) => {
         console.log(value)
+        this.cpuUsage = value
         if (this.multi[0].series.length > 20) {
           this.multi[0].series.shift()
         }
