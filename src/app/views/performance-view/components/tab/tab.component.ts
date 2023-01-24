@@ -9,23 +9,27 @@ export class TabComponent implements OnInit {
   @Input() title: string = "Title"
 
   multi: any = [{
-    name: "patates",
+    name: "CPU",
     series: [
       {
-        name: "sanane",
+        name: "CPU1",
         value: 31
       },
       {
-        name: "mal",
+        name: "CPU2",
         value: 60
       },
       {
-        name: "öküz",
+        name: "CPU3",
         value: 20
       },
       {
-        name: "salak",
+        name: "CPU4",
         value: 100
+      },
+      {
+        name: "CPU5",
+        value: 10
       },
     ]
   }];
