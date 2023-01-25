@@ -2,7 +2,7 @@
     <div class="bg-gray-800 h-16 flex items-center p-5">
         <h1 class="text-white font-bold text-2xl">Performance</h1>
     </div>
-    <div class="flex-grow flex flex-row">
+    <div class="flex-grow flex flex-row bg-gray-900">
         <!-- Tabs -->
         <div class="w-64 flex flex-col px-1 py-3 max-h-screen">
             <app-tab title="CPU" [cpuResources]="cpuResources" [cpuUsage]="cpuUsage"></app-tab>
@@ -10,7 +10,7 @@
         </div>
 
         <!-- information -->
-        <div class="flex-grow text-white p-6">
+        <div class="flex-grow text-white p-6 bg-gray-900">
             <router-outlet></router-outlet>
         </div>
     </div>
