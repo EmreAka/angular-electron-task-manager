@@ -12,7 +12,7 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit {
   @ViewChild('chart', { static: true }) chartRef: ElementRef;
   chart: Chart;
   cpuUsage: number = 0
-  cpuInfo: string = ""
+  cpuInfo: any = null
 
   cpuResources: any = [{
     name: "CPU",
@@ -84,7 +84,22 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    
+    this.getCpuInformation();
+    this.getCpuUsage();
+  }
+
+  getCpuInformation() {
+    return this.performanceService.getCpuInformation().subscribe({
+      next: (value) => {
+        if (value) {
+          this.cpuInfo = value
+          console.log(value)
+        }
+      }
+    })
+  }
+
+  getCpuUsage() {
     this.performanceService.getCpuUsage().subscribe({
       next: (value) => {
         this.cpuUsage = value
@@ -100,9 +115,5 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit {
         }
       }
     })
-  }
-
-  getCpuInformation(){
-    return this.performanceService.getCpuInformation()
   }
 }

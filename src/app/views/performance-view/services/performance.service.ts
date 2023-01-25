@@ -14,7 +14,7 @@ export class PerformanceService {
   private ramUsage = new BehaviorSubject<number>(0)
   private ramUsage$ = this.ramUsage.asObservable()
 
-  private cpuInformation =new BehaviorSubject<string | null>(null);
+  private cpuInformation =new BehaviorSubject<string | null | any>(null);
   private cpuInformation$ = this.cpuInformation.asObservable()
 
   constructor(private electronService: ElectronService) {
@@ -59,7 +59,7 @@ export class PerformanceService {
 
   private getCpuInfo(): void {
     this.electronService.ipcRenderer.on('cpu-info-response', (event, data) => {
-      this.cpuInformation.next(`${data.manufacturer} ${data.brand} ${data.speed}GHz`)
+      this.cpuInformation.next(data)
     })
     this.electronService.ipcRenderer.send('cpu-info-request');
   }
