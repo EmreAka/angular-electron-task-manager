@@ -44,19 +44,36 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit{
   constructor(private performanceService: PerformanceService) { }
   ngAfterViewInit(){
     this.chart = new Chart(this.chartRef.nativeElement, {
-      type: 'bar',
+      type: 'line',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Patates', 'domates', 'cacık'],
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
         datasets: [{
+          fill: 'origin',
           label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3, 20, 30, 40, 50],
+          data: [12, 19, 3, 5, 2, 3],
           borderWidth: 1
         }]
       },
       options: {
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        maintainAspectRatio: false,
+        elements: {
+          line: {
+            tension: 0.4,
+          },
+          
+        },
         scales: {
           y: {
-            beginAtZero: true
+            beginAtZero: true,
+            max: 100,
+          },
+          x: {
+            display: false
           }
         }
       }
@@ -67,11 +84,13 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit{
     this.performanceService.getCpuUsage().subscribe({
       next: (value) => {
         this.cpuUsage = value
-        if (this.cpuResources[0].series.length > 20) {
-          this.cpuResources[0].series.shift()
+        if (this.chart.data.datasets[0].data.length > 20) {
+          this.chart.data.labels.shift()
+          this.chart.data.datasets[0].data.shift()  
         }
-        this.cpuResources[0].series.push({ name: Date().toString(), value: value })
-        this.cpuResources = [...this.cpuResources]
+        this.chart.data.labels.push(Date.now().toString())
+        this.chart.data.datasets[0].data.push(value)
+        this.chart.update()
       }
     })
   }
