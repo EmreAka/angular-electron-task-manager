@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PerformanceService } from '../../services/performance.service';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-cpu-performance',
   templateUrl: './cpu-performance.component.html',
   styleUrls: ['./cpu-performance.component.scss']
 })
-export class CpuPerformanceComponent implements OnInit {
+export class CpuPerformanceComponent implements OnInit, AfterViewInit{
+  @ViewChild('chart', { static: true }) chartRef: ElementRef;
+  chart: Chart;
+
   cpuUsage: number = 0
 
   cpuResources: any = [{
@@ -37,6 +42,26 @@ export class CpuPerformanceComponent implements OnInit {
 
 
   constructor(private performanceService: PerformanceService) { }
+  ngAfterViewInit(){
+    this.chart = new Chart(this.chartRef.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Patates', 'domates', 'cacık'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3, 20, 30, 40, 50],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.performanceService.getCpuUsage().subscribe({

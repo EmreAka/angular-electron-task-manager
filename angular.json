@@ -37,6 +37,7 @@
               "src/styles.scss"
             ],
             "scripts": [
+              "node_modules/chart.js/dist/chart.js"
             ],
             "customWebpackConfig": {
               "path": "./angular.webpack.js",
