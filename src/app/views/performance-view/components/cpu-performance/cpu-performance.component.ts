@@ -11,7 +11,6 @@ Chart.register(...registerables);
 export class CpuPerformanceComponent implements OnInit, AfterViewInit{
   @ViewChild('chart', { static: true }) chartRef: ElementRef;
   chart: Chart;
-
   cpuUsage: number = 0
 
   cpuResources: any = [{
@@ -58,14 +57,17 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit{
         plugins: {
           legend: {
             display: false
-          }
+          },
         },
+
         maintainAspectRatio: false,
         elements: {
           line: {
             tension: 0.4,
           },
-          
+          point: {
+            radius: 0,
+          }
         },
         scales: {
           y: {
@@ -74,7 +76,7 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit{
           },
           x: {
             display: false
-          }
+          },
         }
       }
     });
@@ -84,7 +86,7 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit{
     this.performanceService.getCpuUsage().subscribe({
       next: (value) => {
         this.cpuUsage = value
-        if (this.chart.data.datasets[0].data.length > 20) {
+        if (this.chart.data.datasets[0].data.length > 50) {
           this.chart.data.labels.shift()
           this.chart.data.datasets[0].data.shift()  
         }
