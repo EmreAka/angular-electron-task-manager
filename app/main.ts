@@ -62,6 +62,12 @@ try {
   // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
   app.on('ready', () => { setTimeout(createWindow, 400); Menu.setApplicationMenu(null) });
 
+  ipcMain.on('cpu-info-request', (event) => {
+    si.cpu()
+    .then(data => event.sender.send('cpu-info-response', data))
+    .catch(error => console.error(error))
+  })
+
   ipcMain.on('cpu-request', (event) => {
     // const cpus = os.cpus();
     // let total = 0;

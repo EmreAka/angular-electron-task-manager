@@ -6,7 +6,6 @@ import { ElectronService } from '../../../core/services';
   providedIn: 'root'
 })
 export class PerformanceService {
-
   private intervalId: any = null;
 
   private cpuUsage = new BehaviorSubject<number>(0)
@@ -14,6 +13,9 @@ export class PerformanceService {
 
   private ramUsage = new BehaviorSubject<number>(0)
   private ramUsage$ = this.ramUsage.asObservable()
+
+  private cpuInformation =new BehaviorSubject<string | null>(null);
+  private cpuInformation$ = this.cpuInformation.asObservable()
 
   constructor(private electronService: ElectronService) {
     this.subscribe()
@@ -29,6 +31,8 @@ export class PerformanceService {
       const usagePercentage = (data * 100).toFixed(2) + '%';
       this.ramUsage.next(+(data * 100).toFixed(2))
     });
+
+    this.getCpuInfo()
   }
 
   getCpuUsage() {
@@ -51,5 +55,16 @@ export class PerformanceService {
   stopRequesting() {
     clearInterval(this.intervalId)
     this.intervalId = null;
+  }
+
+  private getCpuInfo(): void {
+    this.electronService.ipcRenderer.on('cpu-info-response', (event, data) => {
+      this.cpuInformation.next(`${data.manufacturer} ${data.brand} ${data.speed}GHz`)
+    })
+    this.electronService.ipcRenderer.send('cpu-info-request');
+  }
+
+  getCpuInformation(){
+    return this.cpuInformation$;
   }
 }

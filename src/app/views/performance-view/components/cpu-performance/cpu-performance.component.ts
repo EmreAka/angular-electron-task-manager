@@ -8,10 +8,11 @@ Chart.register(...registerables);
   templateUrl: './cpu-performance.component.html',
   styleUrls: ['./cpu-performance.component.scss']
 })
-export class CpuPerformanceComponent implements OnInit, AfterViewInit{
+export class CpuPerformanceComponent implements OnInit, AfterViewInit {
   @ViewChild('chart', { static: true }) chartRef: ElementRef;
   chart: Chart;
   cpuUsage: number = 0
+  cpuInfo: string = ""
 
   cpuResources: any = [{
     name: "CPU",
@@ -41,7 +42,7 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit{
 
 
   constructor(private performanceService: PerformanceService) { }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.chart = new Chart(this.chartRef.nativeElement, {
       type: 'line',
       data: {
@@ -83,18 +84,25 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
+    
     this.performanceService.getCpuUsage().subscribe({
       next: (value) => {
         this.cpuUsage = value
-        if (this.chart.data.datasets[0].data.length > 50) {
-          this.chart.data.labels.shift()
-          this.chart.data.datasets[0].data.shift()  
+        if (this.chart != null) {
+
+          if (this.chart.data.datasets[0].data.length > 50) {
+            this.chart.data.labels.shift()
+            this.chart.data.datasets[0].data.shift()
+          }
+          this.chart.data.labels.push(Date.now().toString())
+          this.chart.data.datasets[0].data.push(value)
+          this.chart.update()
         }
-        this.chart.data.labels.push(Date.now().toString())
-        this.chart.data.datasets[0].data.push(value)
-        this.chart.update()
       }
     })
   }
 
+  getCpuInformation(){
+    return this.performanceService.getCpuInformation()
+  }
 }
