@@ -93,7 +93,6 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit {
       next: (value) => {
         if (value) {
           this.cpuInfo = value
-          console.log(value)
         }
       }
     })

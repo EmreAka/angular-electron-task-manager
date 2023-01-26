@@ -8,6 +8,8 @@ import { ElectronService } from '../../../core/services';
 export class PerformanceService {
   private intervalId: any = null;
 
+  public cpuTime: any = null;
+
   private cpuUsage = new BehaviorSubject<number>(0)
   private cpuUsage$ = this.cpuUsage.asObservable()
 
@@ -33,6 +35,8 @@ export class PerformanceService {
     });
 
     this.getCpuInfo()
+
+    this.getCpuUptime()
   }
 
   getCpuUsage() {
@@ -62,6 +66,14 @@ export class PerformanceService {
       this.cpuInformation.next(data)
     })
     this.electronService.ipcRenderer.send('cpu-info-request');
+  }
+
+  private getCpuUptime():void {
+    this.electronService.ipcRenderer.on('cpu-uptime-response', (event, data) => {
+      this.cpuTime = data;
+      console.log(data)
+    })
+    this.electronService.ipcRenderer.send('cpu-uptime-request')
   }
 
   getCpuInformation(){
