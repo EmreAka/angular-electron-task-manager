@@ -7,7 +7,7 @@
         <canvas id="chart" #chart></canvas>
     </div>
 
-    <div id="info" class="flex justify-between min-h-0">
+    <div id="info" class="flex justify-between min-h-0" *ngIf="cpuInfo">
         <div class="flex-grow flex flex-col gap-5 min-h-0">
 
             <div class="flex gap-10">
@@ -51,25 +51,22 @@
         <div class="flex-grow flex  justify-between min-h-0">
             <div class="flex flex-col   gap-2 pr-10">
                 <h1>Base speed:</h1>
-                <h1>Sockets:</h1>
                 <h1>Cores:</h1>
                 <h1>Logical processors:</h1>
                 <h1>Virtualization:</h1>
-                <h1>Hyper-V support?:</h1>
                 <h1>L1 cache:</h1>
                 <h1>L2 cache:</h1>
                 <h1>L3 cache:</h1>
             </div>
             <div class="flex flex-col flex-grow gap-2">
-                <h1>3.0GHz</h1>
-                <h1>1</h1>
-                <h1>4</h1>
-                <h1>8</h1>
-                <h1>Disabled</h1>
-                <h1>Yes</h1>
-                <h1>256 KB</h1>
-                <h1>1.0 MB</h1>
-                <h1>6.0 MB</h1>
+                <h1>{{cpuInfo.speed}} GHz</h1>
+                <!-- cores ve physicalcores yer değiştirebilir -->
+                <h1>{{cpuInfo.cores}}</h1>
+                <h1>{{cpuInfo.physicalCores}}</h1>
+                <h1>{{cpuInfo.virtualization ? "Activated": "Disabled"}}</h1>
+                <h1>{{cpuInfo.cache.l1d / 1000 | number : '1.2-2'}} KB</h1>
+                <h1>{{(cpuInfo.cache.l2/ 1000000)| number : '1.2-2'}} MB</h1>
+                <h1>{{(cpuInfo.cache.l3/ 1000000)| number : '1.2-2'}} MB</h1>
             </div>
         </div>
 
