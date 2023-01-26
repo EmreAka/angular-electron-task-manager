@@ -42,7 +42,7 @@
             <div class="flex gap-10">
                 <div>
                     <h1>Up time</h1>
-                    <p class="text-4xl">3:02:28:59</p>
+                    <p class="text-4xl" *ngIf="this.cpuUptime">{{this.cpuUptime | secondsToTime}}</p>
                 </div>
             </div>
 

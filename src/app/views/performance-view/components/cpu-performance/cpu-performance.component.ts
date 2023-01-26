@@ -13,6 +13,7 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit {
   chart: Chart;
   cpuUsage: number = 0
   cpuInfo: any = null
+  cpuUptime: any = null
 
   cpuResources: any = [{
     name: "CPU",
@@ -86,6 +87,7 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getCpuInformation();
     this.getCpuUsage();
+    this.getCpuUptime();
   }
 
   getCpuInformation() {
@@ -94,6 +96,14 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit {
         if (value) {
           this.cpuInfo = value
         }
+      }
+    })
+  }
+
+  getCpuUptime(){
+    this.performanceService.getCpuUptime().subscribe({
+      next: (value) => {
+        this.cpuUptime = value.uptime
       }
     })
   }
