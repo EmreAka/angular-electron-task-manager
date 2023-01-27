@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, delay, filter, map, pipe, switchMap, timer } from 'rxjs';
+import { PerformanceService } from '../../../views/performance-view/services/performance.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,7 +23,7 @@ export class SidebarComponent implements OnInit {
   private showTitle = new BehaviorSubject<boolean>(false);
   private showTitle$ = this.showTitle.asObservable();
 
-  constructor() { }
+  constructor(private performanceService: PerformanceService) { }
 
   ngOnInit(): void {
 
@@ -61,6 +62,7 @@ export class SidebarComponent implements OnInit {
 
   setSidebarWide() {
     this.isWide = !this.isWide
+    this.performanceService.isWide = this.isWide;
     if (this.isWide) {
       this.sidebarStyle.next('px-1')
       this.showTitle.next(true)

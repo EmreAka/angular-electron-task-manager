@@ -91,6 +91,13 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit {
     this.getCpuUptime();
   }
 
+  getCanvasWidthClass(){
+    if (this.performanceService.isWide) {
+      return "wide"
+    }
+    return "notWide"
+  }
+
   getCpuInformation() {
     this.cpuInfo$ =  this.performanceService.getCpuInformation();
   }

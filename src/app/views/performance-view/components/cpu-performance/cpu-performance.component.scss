@@ -1,4 +1,9 @@
-.perfect{
+.notWide{
     height: calc(50vh);
     width: calc(100vw - 23rem);
+}
+
+.wide{
+    height: calc(50vh);
+    width: calc(100vw - 40rem);
 }
