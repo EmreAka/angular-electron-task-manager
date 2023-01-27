@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PerformanceService } from '../../services/performance.service';
 import { Chart, registerables } from 'chart.js';
+import { Observable } from 'rxjs';
 Chart.register(...registerables);
 
 @Component({
@@ -12,7 +13,7 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit {
   @ViewChild('chart', { static: true }) chartRef: ElementRef;
   chart: Chart;
   cpuUsage: number = 0
-  cpuInfo: any = null
+  cpuInfo$: Observable<any>
   cpuUptime: any = null
 
   cpuResources: any = [{
@@ -91,13 +92,7 @@ export class CpuPerformanceComponent implements OnInit, AfterViewInit {
   }
 
   getCpuInformation() {
-    return this.performanceService.getCpuInformation().subscribe({
-      next: (value) => {
-        if (value) {
-          this.cpuInfo = value
-        }
-      }
-    })
+    this.cpuInfo$ =  this.performanceService.getCpuInformation();
   }
 
   getCpuUptime(){

@@ -8,6 +8,8 @@ import { ElectronService } from '../../../core/services';
 export class PerformanceService {
   private intervalId: any = null;
 
+  isWide: boolean = false;
+
   private cpuUptime = new BehaviorSubject<any>(null);
   private cpuUptime$ = this.cpuUptime.asObservable()
 
